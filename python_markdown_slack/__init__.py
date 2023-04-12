@@ -4,7 +4,7 @@ import re
 
 from markdown import util
 from markdown.extensions import Extension
-from markdown.inlinepatterns import AutolinkPattern, SimpleTagPattern, Pattern
+from markdown.inlinepatterns import SimpleTagPattern, Pattern
 
 from python_markdown_slack.list_handler import UListProcessor, OListProcessor
 
@@ -32,6 +32,15 @@ class SlackInlineTagPattern(SimpleTagPattern):
         super().__init__(pattern, tag)
         self.compiled_re = re.compile("^(.*?(?:[^a-z0-9]|^))%s((?:[^a-z0-9]|$).*)$" % pattern,
                                       re.DOTALL | re.UNICODE)
+        
+        
+class AutolinkPattern(Pattern):
+    """ Return a link Element given an autolink (`<http://example/com>`). """
+    def handleMatch(self, m):
+        el = util.etree.Element("a")
+        el.set('href', self.unescape(m.group(2)))
+        el.text = util.AtomicString(m.group(2))
+        return el
 
 
 class PythonMarkdownSlack(Extension):
