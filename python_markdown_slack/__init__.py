@@ -52,7 +52,7 @@ class PythonMarkdownSlack(Extension):
         # Call the parent class's __init__ method to configure options
         super(PythonMarkdownSlack, self).__init__(*args, **kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         data_for_replacing_text = self.getConfig('data_for_replacing_text')
 
         autolink_with_name_tag = AutolinkWihtNamePattern(AUTOLINK_WITH_NAME_RE, md)
