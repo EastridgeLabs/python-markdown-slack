@@ -1,1 +1,1 @@
-markdown==2.6.6
+markdown==3.4.3
